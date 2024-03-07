@@ -1,6 +1,6 @@
 ---
 layout: home
-title: Blogs
+title: CS Lab Notebook
 search_exclude: true
 permalink: /blogs/
 ---
