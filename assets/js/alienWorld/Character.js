@@ -2,6 +2,9 @@ import GameEnv from './GameEnv.js';
 import GameObject from './GameObject.js';
 
 class Character extends GameObject {
+    // container for all Character objects in game
+    static characterArray = [];
+
     constructor(canvas, image, speedRatio,
         spriteWidth, spriteHeight, spriteScale) {
                 var characterArray = [];
@@ -16,34 +19,19 @@ class Character extends GameObject {
         this.collisionWidth = spriteWidth * spriteScale;
         this.collisionHeight = spriteHeight * spriteScale;
         this.gravityEnabled = true;
-    }
-
-    getMinFrame(){
-        return this.manFrame;
+        Character.characterArray.push(this);
     }
 
     setMinFrame(minFrame){
         this.minFrame = minFrame;
     }
 
-    getMaxFrame(){
-        return this.maxFrame;
-    }
-
     setMaxFrame(maxFrame){
         this.maxFrame = maxFrame;
     }
 
-    getFrameX() {
-        return this.frameX;
-    }
-
     setFrameX(frameX){
         this.frameX = frameX;
-    }
-
-    getFrameY() {
-        return this.frameY;
     }
 
     setFrameY(frameY){
@@ -91,7 +79,7 @@ class Character extends GameObject {
         } else {
             // First Screen Position
             this.setX(Math.random() * GameEnv.innerWidth);
-            this.setY(GameEnv.bottom);
+            this.setY(GameEnv.top);
         }
     }
 

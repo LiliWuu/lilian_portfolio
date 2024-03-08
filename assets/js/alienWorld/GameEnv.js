@@ -9,6 +9,7 @@ export class GameEnv {
     static gameSpeed;
     static gravity;
 
+    static score = 30;  //decrement this in floorAction and display this in DOM
     // Make the constructor private to prevent instantiation
     constructor() {
         throw new Error('GameEnv is a static class and cannot be instantiated.');
@@ -45,6 +46,19 @@ export class GameEnv {
         this.setTop();
         // this.setBottom() is ignored for now as resize of background object determinse bottom
     }
+    static updateScoreDisplay() {
+        // Get the score element from the DOM
+        const scoreElement = document.getElementById('score');
+
+        if (scoreElement) {
+            // Update the score display with the current score value
+            scoreElement.textContent = `Score: ${this.score}`;
+        }
+    }
+    static decrementScore(amount){
+        this.score -=amount;
+    }
+    
 }
 
 export default GameEnv;

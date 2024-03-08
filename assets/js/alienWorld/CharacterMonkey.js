@@ -1,17 +1,26 @@
 import GameEnv from './GameEnv.js';
 import Character from './Character.js';
-import CharacterDog from './CharacterDog.js'
+import CharacterCoyote from './CharacterCoyote2.js';
 
 const MonkeyAnimation = {
     // Sprite properties
     scale: 2,
-    width: 40,
-    height: 40,
-    w: { row: 9, frames: 15 }, // jump key
-	a: { row: 1, frames: 15, idleFrame: { column: 7, frames: 0 } }, // Walk left key
-    s: { }, // no action
-	d: { row: 0, frames: 15, idleFrame: { column: 7, frames: 0 } }, // Walk right key
+    width: 36,
+    height: 32.5,
+	d: { row: 0, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk right with 'd' key
+	a: { row: 1, frames: 0, idleFrame: { column: 0, frames: 0 } }, // Walk left with 'a' key
 }
+
+const defaultIdleFrame = { row: 0, column: 0, frames: 0 };
+
+export function initCoyote(canvasId, image, speedRatio) {
+    const canvas = document.getElementById(canvasId); // Get the canvas element using the provided ID
+    var coyote = new CharacterCoyote(canvas, image, speedRatio); // Pass the canvas element
+    coyote.setFrameY(CoyoteAnimation.scene1.row);
+    coyote.setMaxFrame(CoyoteAnimation.scene1.frames);
+    return coyote;
+}
+
 
 export class CharacterMonkey extends Character{
     // constructors sets up Character object 
@@ -23,97 +32,98 @@ export class CharacterMonkey extends Character{
             MonkeyAnimation.height, 
             MonkeyAnimation.scale
         );
-        this.sceneStarted = false;
+        // Initial position at the bottom center
+        this.position = {
+            x: this.canvas.width / 2,
+            y: 0
+        }
         this.isIdle = true;
+        this.gravityEnabled = false;
+
         this.yVelocity = 0;
-        this.stashFrame = MonkeyAnimation.d;
-        this.pressedDirections = {};
+        this.collidedWithCoyote = false;
+
     }
 
-    setAnimation(animation) {
-        this.setFrameY(animation.row);
-        this.setMaxFrame(animation.frames);
-        if (this.isIdle && animation.idleFrame) {
-            this.setFrameX(animation.idleFrame.column)
-            this.setMinFrame(animation.idleFrame.frames);
+    size() {
+        super.size();
+        if (!GameEnv.prevInnerWidth) {
+            this.setY(GameEnv.bottom);
         }
-    }i
-    
-    // check for matching animation
-    isAnimation(key) {
-        var result = false;
-        for (let direction in this.pressedDirections) {
-            if (this.pressedDirections[direction] === key.row) {
-                result = !this.isIdle;
-                break; // Exit the loop if there's a match
-            }
-        }
-        //result = (result && !this.isIdle);
-        if (result) {
-                this.stashFrame = key;
-        }
-        return result;
-    }
-
-    // check for gravity based animation
-    isGravityAnimation(key) {
-        var result = false;
-        for (let direction in this.pressedDirections) {
-            if (this.pressedDirections[direction] === key.row) {
-                result = (!this.isIdle && GameEnv.bottom <= this.y);
-                break; // Exit the loop if there's a match
-            }
-        }
-        //result = (result && !this.isIdle && GameEnv.bottom <= this.y);
-        //var result = (this.frameY === key.row && !this.isIdle && GameEnv.bottom <= this.y);
-        if (result) {
-            return true;
-        }
-        if (GameEnv.bottom <= this.y) {
-            this.setAnimation(this.stashFrame);
-        }
-        return false;
+        this.setX(GameEnv.innerWidth/2);
     }
 
     // Monkey perform a unique update
     update() {
-        if (this.isAnimation(MonkeyAnimation.a)) {
-            this.x -= this.speed;  // Move to left
+        
+        if (this.frameY === MonkeyAnimation.a.row && !this.isIdle) {
+            this.x -= this.speed;  // Move the monkey to the left
         }
-        if (this.isAnimation(MonkeyAnimation.d)) {
-            this.x += this.speed;  // Move to right
+        else if (this.frameY === MonkeyAnimation.d.row && !this.isIdle){
+            this.x += this.speed;
+        } else if (GameEnv.bottom <= this.y) {
+            // do idle frame
+            this.setFrameY(defaultIdleFrame.row);
+            this.setFrameX(defaultIdleFrame.column)
+            this.setMaxFrame(defaultIdleFrame.frames);
+            this.idle = true;
         }
-        if (this.isGravityAnimation(MonkeyAnimation.w)) {
-            this.y -= (GameEnv.bottom * .33);  // jump 33% higher than floor
-        } 
+        // Add logic to update the position based on velocity
+    
+        /* i think this code isnt needed but will keep in comment for now
+        if (GameEnv.bottom > this.y) {
+            // gravity (using acceleration instead of velocity, needed for jump implementation)
+            this.yVelocity += 0.5;
+        } else {
+            // normal force (basically disabels gravity if on the ground)
+            this.yVelocity = Math.min(0, this.yVelocity);
+        }
+
+        this.y += this.yVelocity;
+        */
 
         // Perform super update actions
         super.update();
     }
 
-    // override default action
-    collisionAction(){
-        
+    collisionAction() {
+        // Check if the object to collide with is a coyote
+        if (this.CharacterCoyote.isCollidingWith(CharacterMonkey)) {
+            // Start the spiraling animation for the chicken
+            const canvas = this.canvas;
+            const duration = 1000; // Adjust the duration as needed
+            let startTime = null;
 
-        // If the scene has started then don't run the collision event code
-        // With collision data we can even determine which side the dog is colliding on
-        if (this.sceneStarted === false && this.collisionData.touchPoints.this.right){
-            this.sceneStarted = true;
 
-            // Dog starts to bark at monkey for three seconds
-            this.frameY = MonkeyAnimation.w.row;
-            this.maxFrame = MonkeyAnimation.w.frames;
-            this.y -= (GameEnv.bottom * .33);  // jump 33% higher than floor
+            function spiral(timestamp) {
+                if (!startTime) {
+                    startTime = timestamp;
+                }
 
-            setTimeout(() => {
-                // After 3 seconds, transition to the "previous" state
-                this.frameY = MonkeyAnimation.d.row;
-                this.maxFrame = MonkeyAnimation.d.frames;
-                this.sceneStarted = false;
-            }, 3000);
+                const elapsed = timestamp - startTime;
+                if (elapsed < duration) {
+                    const progress = elapsed / duration;
+
+                    // Adjust opacity based on the progress
+                    canvas.style.opacity = 1 - progress;
+
+                    // Rotate the canvas
+                    const rotationAngle = progress * (Math.random() * 2880); // Adjust the rotation speed as needed
+                    canvas.style.transform = `rotate(${rotationAngle}deg`;
+
+                    requestAnimationFrame(spiral); // continue the animation loop
+                } else {
+                    this.destroy(); // remove object from the game
+                    // Display the game over image or trigger the game over logic here
+                }
+            }
+
+            // Start the animation
+            requestAnimationFrame(spiral);
         }
     }
 }
+
 
 // Can add specific initialization parameters for the monkey here
 // In this case the monkey is following the default character initialization
@@ -121,31 +131,49 @@ export function initMonkey(canvasId, image, gameSpeed, speedRatio){
     // Create the Monkey character
     var monkey = new CharacterMonkey(canvasId, image, gameSpeed, speedRatio);
 
+    // Set initial Animation
+    monkey.setFrameY(MonkeyAnimation['a'].row);
+    monkey.setFrameX(MonkeyAnimation['a'].idleFrame.column)
+    monkey.setMaxFrame(MonkeyAnimation['a'].idleFrame.frames);
+
     /* Monkey Control 
     * changes FrameY value (selected row in sprite)
     * change MaxFrame according to value in selected animation
-    */
+    */ 
+   
     document.addEventListener('keydown', function (event) {
         if (MonkeyAnimation.hasOwnProperty(event.key)) {
             // Set variables based on the key that is pressed
-            const key = event.key;
-            if (!(event.key in monkey.pressedDirections)){
-                monkey.pressedDirections[event.key] = MonkeyAnimation[key].row;
-            }
+            const selectedAnimation = event.key;
+            monkey.setFrameY(MonkeyAnimation[selectedAnimation].row);
+            monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].frames);
             monkey.isIdle = false;
-            monkey.setAnimation(MonkeyAnimation[key]);
         }
+        /* else if (event.key === 'a') {
+            monkey.isIdle = false;
+            monkey.velocity.x -= monkey.speed;  // Move the monkey to the left
+            update();
+        } else if (event.key === 'd') {
+            monkey.isIdle = false;
+            monkey.velocity.x += monkey.speed;  // Move the monkey to the right
+            update();
+        }
+        */
     });
+
 
     document.addEventListener('keyup', function (event) {
         if (MonkeyAnimation.hasOwnProperty(event.key)) {
             // If no button is pressed then idle
-            const key = event.key;
-            if (event.key in monkey.pressedDirections){
-                delete monkey.pressedDirections[event.key];
+            const selectedAnimation = event.key;
+            if (MonkeyAnimation[selectedAnimation].idleFrame) {
+                monkey.setFrameY(MonkeyAnimation[selectedAnimation].row);
+                monkey.setFrameX(MonkeyAnimation[selectedAnimation].idleFrame.column)
+                monkey.setMaxFrame(MonkeyAnimation[selectedAnimation].idleFrame.frames);
+                monkey.isIdle = true;
+                monkey.velocity.x = 0;
             }
-            monkey.isIdle = true;
-            monkey.setAnimation(MonkeyAnimation[key]);
+
         }
     });
 
