@@ -95,7 +95,16 @@ hide: true
       this.stopAnimate();
       this.animate(this.obj["Walk"], 3);
     }
+    
+    startWalkingLeft() {
+    this.stopAnimate();
+    this.animate(this.obj["WalkL"], -3);  // Negative speed for left movement, check meta data for WalkL
+  }
 
+  startRunningLeft() {
+    this.stopAnimate();
+    this.animate(this.obj["Run1L"], -6);  // Negative speed for left movement, check meta data for Run1L
+  }
     startRunning() {
       this.stopAnimate();
       this.animate(this.obj["Run1"], 6);
@@ -134,9 +143,9 @@ hide: true
     if (event.key === "ArrowRight") {
       event.preventDefault();
       if (event.repeat) {
-        mario.startCheering();
+        mario.startWalking();
       } else {
-        if (mario.currentSpeed === 0) {
+        if (mario.currentSpeed === 0||mario.currentSpeed === -3||mario.currentSpeed === -6) {
           mario.startWalking();
         } else if (mario.currentSpeed === 3) {
           mario.startRunning();
@@ -145,9 +154,13 @@ hide: true
     } else if (event.key === "ArrowLeft") {
       event.preventDefault();
       if (event.repeat) {
-        mario.stopAnimate();
+        mario.startWalkingLeft();
       } else {
-        mario.startPuffing();
+        if (mario.currentSpeed === 3||mario.currentSpeed === 0||mario.currentSpeed === 6){
+          mario.startWalkingLeft();
+        } else if (mario.currentSpeed === -3){
+          mario.startRunningLeft();
+        }
       }
     }
   });
@@ -164,7 +177,11 @@ hide: true
       }
     } else {
       // move left
-      mario.startPuffing();
+      if (currentSpeed === 0) { // if at rest, go to walking
+      mario.startWalkingLeft();
+    } else if (currentSpeed === -3) { // if walking, go to running
+      mario.startRunningLeft();
+    }
     }
   });
 
@@ -188,6 +205,6 @@ hide: true
   });
 
 </script>
-[GitHub repo](https://github.com/LiliWuu/lilian)
+[GitHub repo](https://github.com/LiliWuu/lilian_portfolio)
 
 # Posts
