@@ -19,7 +19,7 @@ minima:
 plugins:
 - jekyll-remote-theme
 header_pages:
-  - navigation/compsci.md
+  - navigation/csse.md
   - navigation/search.html
   - navigation/about.md
   - navigation/tags.md

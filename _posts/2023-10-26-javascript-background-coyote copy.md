@@ -4,8 +4,8 @@ layout: default
 image: /images/whitechicken.png
 title: Full Game
 description: Use JavaScript without external libraries to loop background moving across screen. Depends on Background.js and GameObject.js.
-type: hacks
-courses: { compsci: {week: 7} }
+type: ccc
+courses: { csse: {week: 7} }
 image: /images/background2.jpg
 over: /images/gameover.png
 images:

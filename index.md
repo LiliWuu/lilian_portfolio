@@ -120,6 +120,10 @@ hide: true
       this.animate(this.obj["Cheer"], 0);
     }
 
+    startCheeringLeft(){
+      this.stopAnimate();
+      this.animate(this.obj["CheerL"],0)
+    }
     startFlipping() {
       this.stopAnimate();
       this.animate(this.obj["Flip"], 0);
@@ -143,7 +147,7 @@ hide: true
     if (event.key === "ArrowRight") {
       event.preventDefault();
       if (event.repeat) {
-        mario.startWalking();
+        mario.startCheering();
       } else {
         if (mario.currentSpeed === 0||mario.currentSpeed === -3||mario.currentSpeed === -6) {
           mario.startWalking();
@@ -154,7 +158,7 @@ hide: true
     } else if (event.key === "ArrowLeft") {
       event.preventDefault();
       if (event.repeat) {
-        mario.startWalkingLeft();
+        mario.startCheeringLeft();
       } else {
         if (mario.currentSpeed === 3||mario.currentSpeed === 0||mario.currentSpeed === 6){
           mario.startWalkingLeft();
@@ -162,6 +166,8 @@ hide: true
           mario.startRunningLeft();
         }
       }
+    } else if (event.key === "ArrowUp") {
+      mario.startFlipping();
     }
   });
 
@@ -200,7 +206,7 @@ hide: true
     // adjust sprite size for high pixel density devices
     const scale = window.devicePixelRatio;
     const sprite = document.querySelector(".sprite");
-    sprite.style.transform = `scale(${0.2 * scale})`;
+    sprite.style.transform = `scale(${0.4 * scale})`;
     mario.startResting();
   });
 
