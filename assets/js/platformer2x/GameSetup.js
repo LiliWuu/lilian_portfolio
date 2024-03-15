@@ -191,7 +191,7 @@ const GameSetup = {
       backgrounds: {
         start: { src: "/images/platformer/backgrounds/home.png" },
         hills: { src: "/images/platformer/backgrounds/hills.png" },
-        avenida: { src: "/images/platformer/backgrounds/avenidawide3.jpg" },
+        avenida: { src: "/images/platformer/backgrounds/mc-background.png" },
         mountains: { src: "/images/platformer/backgrounds/mountains.jpg" },
         clouds : { src: "/images/platformer/backgrounds/clouds.png"},
         space: { src: "/images/platformer/backgrounds/planet.jpg" },
@@ -229,35 +229,35 @@ const GameSetup = {
           d: { row: 0, frames: 15, idleFrame: { column: 7, frames: 0 } }
         },
         lopez: {
-          src: "/images/platformer/sprites/lopezanimation.png", 
-          width: 46,
-          height: 52.5,
+          src: "/images/platformer/sprites/steveanimation.png", 
+          width: 32,
+          height: 32,
           scaleSize: 60,
           speedRatio: 0.7,
           w: {row: 1, frames: 3},
           wa: {row: 1, frames: 3},
-          wd: {row: 2, frames: 3},
+          wd: {row: 0, frames: 3},
           idle: { row: 6, frames: 1, idleFrame: {column: 1, frames: 0} },
           a: { row: 1, frames: 3, idleFrame: { column: 1, frames: 0 } }, // Right Movement
-          s: {row: 1, frames: 3}, // Stop the movement 
-          d: { row: 2, frames: 3, idleFrame: { column: 1, frames: 0 } }, // Left Movement 
-          runningLeft: { row: 5, frames: 3, idleFrame: {column: 1, frames: 0} },
-          runningRight: { row: 4, frames: 3, idleFrame: {column: 1, frames: 0} },
+          s: {row: 2, frames: 3}, // Stop the movement 
+          d: { row: 0, frames: 3, idleFrame: { column: 1, frames: 0 } }, // Left Movement 
+          runningLeft: { row: 1, frames: 3, idleFrame: {column: 1, frames: 0} },
+          runningRight: { row: 0, frames: 3, idleFrame: {column: 1, frames: 0} },
         }
       },
       enemies: {
         goomba: {
-          src: "/images/platformer/sprites/goomba.png",
-          width: 448,
-          height: 452,
+          src: "/images/platformer/sprites/creeper.png",
+          width: 28,
+          height: 32,
           scaleSize: 60,
           speedRatio: 0.7,
           xPercentage: 0.6,
         },
         flyingGoomba: {
-          src: "/images/platformer/sprites/flying-goomba.png",
-          width: 448,
-          height: 452,
+          src: "/images/platformer/sprites/ghast.png",
+          width: 30,
+          height: 32,
           scaleSize: 60,
           speedRatio: 0.7,
         },
