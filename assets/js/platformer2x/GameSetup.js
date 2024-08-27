@@ -228,7 +228,7 @@ const GameSetup = {
           s: { row: 12, frames: 15 },
           d: { row: 0, frames: 15, idleFrame: { column: 7, frames: 0 } }
         },
-        lopez: {
+        steve: {
           src: "/images/platformer/sprites/steveanimation.png", 
           width: 32,
           height: 32,
@@ -239,7 +239,7 @@ const GameSetup = {
           wd: {row: 0, frames: 3},
           idle: { row: 6, frames: 1, idleFrame: {column: 1, frames: 0} },
           a: { row: 1, frames: 3, idleFrame: { column: 1, frames: 0 } }, // Right Movement
-          s: {row: 2, frames: 3}, // Stop the movement 
+          s: {row: 2, frames: 3}, // Stop the movement (make Steve roll) 
           d: { row: 0, frames: 3, idleFrame: { column: 1, frames: 0 } }, // Left Movement 
           runningLeft: { row: 1, frames: 3, idleFrame: {column: 1, frames: 0} },
           runningRight: { row: 0, frames: 3, idleFrame: {column: 1, frames: 0} },
@@ -254,7 +254,7 @@ const GameSetup = {
           speedRatio: 0.7,
           xPercentage: 0.6,
         },
-        flyingGoomba: {
+        ghast: {
           src: "/images/platformer/sprites/ghast.png",
           width: 30,
           height: 32,
@@ -382,9 +382,9 @@ const GameSetup = {
         { name: 'goomba', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.5, minPosition: 0.3 },
         { name: 'mushroom', id: 'mushroom', class: Mushroom, data: this.assets.enemies.mushroom, xPercentage: 0.09},
         { name: 'goombaSpecial', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.75, minPosition: 0.5 }, //this special name is used for random event 2 to make sure that only one of the Goombas ends the random event
-        { name: 'flyingGoomba', id: 'flyingGoomba', class: FlyingGoomba, data: this.assets.enemies.flyingGoomba, xPercentage:  0.5, minPosition:  0.05},
-        { name: 'flyingGoomba', id: 'flyingGoomba', class: FlyingGoomba, data: this.assets.enemies.flyingGoomba, xPercentage:  0.9, minPosition: 0.5},
-        { name: 'lopez', id: 'player', class: Player, data: this.assets.players.lopez },
+        { name: 'ghast', id: 'ghast', class: FlyingGoomba, data: this.assets.enemies.ghast, xPercentage:  0.5, minPosition:  0.05},
+        { name: 'ghast', id: 'ghast', class: FlyingGoomba, data: this.assets.enemies.ghast, xPercentage:  0.9, minPosition: 0.5},
+        { name: 'steve', id: 'player', class: Player, data: this.assets.players.steve },
         { name: 'tube', id: 'tube', class: Tube, data: this.assets.obstacles.tube },
         { name: 'complete', id: 'background', class: BackgroundTransitions,  data: this.assets.backgrounds.complete },
         ];
@@ -408,8 +408,8 @@ const GameSetup = {
           { name: 'goomba', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage: 0.3, minPosition: 0.05},
           { name: 'goomba', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.5, minPosition: 0.3 },
           { name: 'goombaSpecial', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.75, minPosition: 0.5 }, //this special name is used for random event 2 to make sure that only one of the Goombas ends the random event
-          { name: 'flyingGoomba', id: 'flyingGoomba', class: FlyingGoomba, data: this.assets.enemies.flyingGoomba, xPercentage:  0.5, minPosition:  0.05},
-          { name: 'flyingGoomba', id: 'flyingGoomba', class: FlyingGoomba, data: this.assets.enemies.flyingGoomba, xPercentage:  0.9, minPosition: 0.5},
+          { name: 'ghast', id: 'ghast', class: FlyingGoomba, data: this.assets.enemies.flyingGoomba, xPercentage:  0.5, minPosition:  0.05},
+          { name: 'ghast', id: 'ghast', class: FlyingGoomba, data: this.assets.enemies.flyingGoomba, xPercentage:  0.9, minPosition: 0.5},
           { name: 'monkey', id: 'player', class: Player, data: this.assets.players.monkey },
           { name: 'tree', id: 'tree', class: Tree, data: this.assets.obstacles.tree },
           { name: 'complete', id: 'background', class: BackgroundTransitions,  data: this.assets.backgrounds.complete },

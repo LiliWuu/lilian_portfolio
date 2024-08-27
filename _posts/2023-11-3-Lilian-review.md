@@ -3,8 +3,8 @@ layout: post
 toc: True
 title: Lilian Individual Review
 description: This page will include my contributions, trial and errors, etc.
-type: tangibles
-courses: {compsci: {week: 5}}
+type: ccc
+courses: {csse: {week: 5}}
 ---
 ## Issues
 [(all my commits)](https://github.com/kaylale124/final-game/commits?author=LiliWuu)
